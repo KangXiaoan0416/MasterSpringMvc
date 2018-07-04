@@ -1,8 +1,9 @@
 package masterspringmvc.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 功能描述: TODO
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HelloController {
 
     @RequestMapping("/hello")
-    @ResponseBody
-    public String hello() {
-        return "Hello World";
+    public String hello(@RequestParam(defaultValue = "world") String name, Model model) {
+        model.addAttribute("message", "Hello," + name);
+        return "resultPage";
     }
 }
