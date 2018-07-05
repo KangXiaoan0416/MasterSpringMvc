@@ -49,8 +49,31 @@ server.port
  
 ## 2.8 lambda表达式
 lambda是函数表达式的便捷语法，它可以用到单个的抽象方法(Single Abstract Method)之中,也就是只包含一个函数的接口
+- 获取单条twitter信息
+```
+   //　显示单条twitter信息
+   String text = searchResults.getTweets().get(0).getText();
+   model.addAttribute("message", text);
+```
+- 获取twitter信息列表
+```
+   List<String> tweets = searchResults.getTweets().stream().map(Tweet::getText).collect(Collectors.toList());
+   model.addAttribute("tweets", tweets);
+   
+   <ul>
+    <!--/*@thymesVar id="tweets" type="java.util.List"*/-->
+    <li th:each="tweet:${tweets}">Some tweet</li>
+   </ul>
+```
+使用布局的时候书上数不用引入thymelaf-layout-dialect 依赖,结果发现没有,然后又加上了,果然不能尽信书啊－－
+
+## 2.9 导航
+错误: 
+> 使用布局的时候因为application.prop 中加了spring.groovy.template.cache=false属性,导致从searchPage到resultPage后结果页面引入css错误
+错误原因待查.
 
 
+# 第三章　处理表单和复杂的URL映射
 
 
 
