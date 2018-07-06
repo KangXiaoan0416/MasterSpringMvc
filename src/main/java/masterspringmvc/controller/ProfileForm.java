@@ -1,5 +1,9 @@
 package masterspringmvc.controller;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +15,18 @@ import java.util.List;
  * @date: 18-7-5 下午7:44
  */
 public class ProfileForm {
-    /***/
+    /**用户名*/
+    @Size(min = 2)
     private String twitterHandle;
     /**邮件地址*/
+    @Email
+    @NotEmpty
     private String email;
     /**出生地址*/
+    @NotNull
     private LocalDate birthDate;
     /**口味列表*/
+    @NotEmpty
     private List<String> tastes = new ArrayList<>();
 
     public String getTwitterHandle() {
