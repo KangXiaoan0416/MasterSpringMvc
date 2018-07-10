@@ -1,5 +1,7 @@
 package masterspringmvc.controller;
 
+import masterspringmvc.date.PastLocalDate;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,7 @@ public class ProfileForm {
     private String email;
     /**出生地址*/
     @NotNull
+    @PastLocalDate
     private LocalDate birthDate;
     /**口味列表*/
     @NotEmpty
