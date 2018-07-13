@@ -12,6 +12,11 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.time.LocalDate;
 
+/** 
+ * 功能描述: TODO
+ * @author: 康小安 
+ * @date: 18-7-13 下午7:37
+ */
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 
