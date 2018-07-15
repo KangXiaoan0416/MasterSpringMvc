@@ -71,9 +71,9 @@ public class TweetController {
     private void setProxy() {
         Properties props = System.getProperties();
         props.put("http.proxyHost", "127.0.0.1");
-        props.put("http.proxyPort", "8118");
+        props.put("http.proxyPort", "1080");
         props.put("https.proxyHost", "127.0.0.1");
-        props.put("https.proxyPort", "8118");
+        props.put("https.proxyPort", "1080");
 
         // System.setProperty("http.proxyHost", "127.0.0.1");
         // System.setProperty("http.proxyPort", "8118");

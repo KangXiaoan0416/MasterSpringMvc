@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class USLocalDateFormatter implements Formatter<LocalDate> {
     public static final String US_PATTERN = "MM/dd/yyyy";
-    public static final String NORMAL_PATTERN = "dd/MM/yyyy";
+    public static final String NORMAL_PATTERN = "yyyy//MM/dd";
 
 
     @Override
