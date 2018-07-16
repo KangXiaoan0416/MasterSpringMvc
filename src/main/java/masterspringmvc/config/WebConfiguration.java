@@ -6,27 +6,24 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.time.LocalDate;
 
-/** 
- * 功能描述: TODO
- * @author: 康小安 
- * @date: 18-7-13 下午7:37
- */
+//教程是继承WebMvcConfigurerAdapter spring5.0已经废弃 改用实现接口
 @Configuration
-public class WebConfiguration extends WebMvcConfigurerAdapter{
+public class WebConfiguration implements WebMvcConfigurer{
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatterForFieldType(LocalDate.class, new USLocalDateFormatter());
     }
 
+    //这里注意因为之前这个类名称不对，所以国际化一直失败，应该是localeResolver 而我写成了localResover
     @Bean
-    public LocaleResolver localResolver() {
+    public LocaleResolver localeResolver() {
         return new SessionLocaleResolver();
     }
 
