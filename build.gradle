@@ -7,6 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE")
 	}
 }
 
@@ -27,11 +28,13 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
-
 	compile('org.springframework.social:spring-social-twitter:1.1.0.RELEASE')
+	compile "org.springframework.boot:spring-boot-configuration-processor"
+
+	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0')
     compile('org.webjars:materializecss:0.96.0')
     compile('org.webjars:jquery:2.1.4')
     compile('org.apache.httpcomponents:httpclient:4.5.5')
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

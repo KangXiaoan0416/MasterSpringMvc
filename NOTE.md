@@ -83,8 +83,21 @@ lambda是函数表达式的便捷语法，它可以用到单个的抽象方法(S
 ### 3.3.2 翻译应用的文本
 ### 3.3.3 表单中的列表
 
-
-
+# 第四章 文件上传与错误处理
+## 4.1 上传文件
+> 上传个人信息头像是，照书本书写后遇到了问题，PictureUploadController.getUploadedPicture中利用
+> @ModelAttribute("picturePath")注解将上传的头像显示到页面中，但是报了个类型转换错误的类型，研究后
+> 发现这个注解的类返回的是Resource类型，而方法参数是Path,所以报错，开始很烦躁，慢慢的静下心来解决了问题，
+> 参数改成了一致的Resource,然后重新生成Path对象
+> 果然尽信书不要如无书啊，遇到问题还是要多动脑，很开心。
+### 4.1.3 prop配置文件
+> 参考PicturesUploadProperties ,会根据prop文件中的名字自动对应。
+### 4.1.4 处理上传文件的错误
+1.IOException
+> 控制器中添加 @ExceptionHandle 注解 类，该控制器下的所有异常都会调用此方法
+2.MartFileException
+> 配置tomcat 异常，因为书上spring-boot版本是1.2.5而我用的是2.0所以这个类在2.0中废弃了，导致我查了下文档，
+> 参考WebConfiguration 中的ConfigurableServletWebServerFactory，这是2.0中对tomcat的配置K
 
 
 
