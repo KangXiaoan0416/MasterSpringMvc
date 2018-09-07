@@ -99,7 +99,7 @@ lambda是函数表达式的便捷语法，它可以用到单个的抽象方法(S
 > 配置tomcat 异常，因为书上spring-boot版本是1.2.5而我用的是2.0所以这个类在2.0中废弃了，导致我查了下文档，
 > 参考WebConfiguration 中的ConfigurableServletWebServerFactory，这是2.0中对tomcat的配置K
 
-
+## 4.2 转换错误信息
 
 
 

@@ -3,7 +3,6 @@ package masterspringmvc.config;
 import masterspringmvc.date.USLocalDateFormatter;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +45,7 @@ public class WebConfiguration implements WebMvcConfigurer{
 
     @Bean
     public ConfigurableServletWebServerFactory customizer() {
+        //spring-boot 2.0 tomcat配置方法 和spring-boot 1.0 差别很大
         TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
         factory.addErrorPages(new ErrorPage(MultipartException.class, "/uploadError"));
         return factory;
