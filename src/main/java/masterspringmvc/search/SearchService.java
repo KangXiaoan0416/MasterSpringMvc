@@ -43,7 +43,7 @@ public class SearchService {
      * @param searchType 检索类型
      * @param taste 检索字
      * @author 康小安
-     * @createDate: 2018年11月16日 下午5:01
+     * @createDate: 2018年11月16日 下午7:39
      * @return org.springframework.social.twitter.api.SearchParameters
      */
     private SearchParameters createSearchParam(String searchType, String taste) {

@@ -7,7 +7,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,77 +15,84 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Locale;
 
 
+/**
+ * 照片上传控制器
+ * 功能描述: TODO
+ * @author: 康小安
+ * @createDate: 18-11-16 下午8:00
+ */
 @Controller
-@SessionAttributes("picturePath")
 public class PictureUploadController {
-    //上传图片保存路径改为手动配置
-    //public static final Resource PICTUERS_DIR = new FileSystemResource("pictures");
+
     private final Resource picturesDir;
     private final Resource anonymousPicture;
     private MessageSource messageSource;
+    private UserProfileSession userProfileSession;
 
     @Autowired
-    public PictureUploadController(PicturesUploadProperties uploadProperties, MessageSource messageSource) {
+    public PictureUploadController(PicturesUploadProperties uploadProperties, MessageSource messageSource, UserProfileSession userProfileSession) {
         picturesDir = uploadProperties.getUploadPath();
         anonymousPicture = uploadProperties.getAnonymousPicture();
         this.messageSource = messageSource;
-    }
-
-    @RequestMapping("upload")
-    public String uploadPage() {
-        return "profile/uploadPage";
-    }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String onUpload(MultipartFile file, RedirectAttributes redirectAttrs, Model model) throws IOException {
-        if(file.isEmpty() || !isImage(file)) {
-            redirectAttrs.addFlashAttribute("error", "Incorrect file.Please upload a picture");
-            return "redirect:/upload";
-        }
-        //copyFileToPictures(file);
-        Resource picturePath = copyFileToPictures(file);
-        model.addAttribute("picturePath", picturePath);
-        return "profile/uploadPage";
+        this.userProfileSession = userProfileSession;
     }
 
     @RequestMapping(value = "/uploadedPicture")
-    public void getUploadedPicture(HttpServletResponse response, @ModelAttribute("picturePath") Resource picturePath) throws IOException{
-        // 1. 写死的图片路径
-        //ClassPathResource classPathResource = new ClassPathResource("/images/anonymous.png");
-        //response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(classPathResource.getFilename()));
-        //IOUtils.copy(classPathResource.getInputStream(), response.getOutputStream());
-
-        // 2.自动配置图片路径
-        //response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(anonymousPicture.getFilename()));
-        //IOUtils.copy(anonymousPicture.getInputStream(), response.getOutputStream());
-
-        // 3.自动获取上传图片路径
-        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.toString()));
-        Path path = Paths.get(picturePath.getURI());
-        Files.copy(path, response.getOutputStream());
+    public void getUploadedPicture(HttpServletResponse response) throws IOException{
+        Resource picturePath = userProfileSession.getPicturePath();
+        if(picturePath == null) {
+            picturePath = anonymousPicture;
+        }
+        response.setHeader("Content-Type", URLConnection.guessContentTypeFromName(picturePath.getFilename()));
+        IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public String onUpload(@RequestParam MultipartFile file, RedirectAttributes redirectAttrs) throws IOException {
+        if(file.isEmpty() || !isImage(file)) {
+            redirectAttrs.addFlashAttribute("error", "Incorrect file.Please upload a picture");
+            return "redirect:/profile";
+        }
+        Resource picturePath = copyFileToPictures(file);
+        userProfileSession.setPicturePath(picturePath);
+        return "redirect:/profile";
+    }
+    
+    /**
+     * 上传文件
+     * @param file　文件
+     * @author 康小安
+     * @createDate: 2018年11月16日 下午7:57
+     * @return org.springframework.core.io.Resource
+     */
     private Resource copyFileToPictures(MultipartFile file) throws IOException {
-        // String filename = file.getOriginalFilename();
-        //File tempFile = File.createTempFile("pic", getFileExtension(filename), PICTUERS_DIR.getFile());
         String fileExtension = getFileExtension(file.getOriginalFilename());
         // 这里要在根目录下创建pictures文件夹,不然会报错,提示找不到该文件
         File tempFile = File.createTempFile("pic", fileExtension, picturesDir.getFile());
-        try (  InputStream in =  file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
+        try (InputStream in =  file.getInputStream(); OutputStream out = new FileOutputStream(tempFile)) {
             IOUtils.copy(in, out);
         }
         return new FileSystemResource(tempFile);
     }
 
-    @ModelAttribute("picturePath")
-    public Resource picturePath() {
-        return anonymousPicture;
+
+    @ExceptionHandler(IOException.class)
+    public ModelAndView handleIoException(Locale locale) {
+        ModelAndView modelAndView = new ModelAndView("profile/profilePage");
+        modelAndView.addObject("error", messageSource.getMessage("upload.io.exception", null, locale));
+        modelAndView.addObject("profileForm", userProfileSession.toForm());
+        return modelAndView;
+    }
+
+    @RequestMapping("uploadError")
+    public ModelAndView onUploadError(Locale locale) {
+        ModelAndView modelAndView = new ModelAndView("profile/profilePage");
+        modelAndView.addObject("error", messageSource.getMessage("upload.file.too.big", null, locale));
+        modelAndView.addObject("profileForm", userProfileSession.toForm());
+        return modelAndView;
     }
 
     private boolean isImage(MultipartFile file) {
@@ -97,17 +103,4 @@ public class PictureUploadController {
         return name.substring(name.lastIndexOf("."));
     }
 
-    @ExceptionHandler(IOException.class)
-    public ModelAndView handleIoException(Locale locale) {
-        ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
-        modelAndView.addObject("error", messageSource.getMessage("upload.io.exception", null, locale));
-        return modelAndView;
-    }
-
-    @RequestMapping("uploadError")
-    public ModelAndView onUploadError(Locale locale) {
-        ModelAndView modelAndView = new ModelAndView("profile/uploadPage");
-        modelAndView.addObject("error", messageSource.getMessage("upload.file.too.big", null, locale));
-        return modelAndView;
-    }
 }
