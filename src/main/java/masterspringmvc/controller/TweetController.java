@@ -1,9 +1,9 @@
 package masterspringmvc.controller;
 
+import masterspringmvc.util.TwitterUtil;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
-import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Properties;
 
 
 /**
@@ -25,14 +24,8 @@ import java.util.Properties;
 @Controller
 @RequestMapping("/twitter")
 public class TweetController {
-    //这里twitterjar包有问题,无法自动注入所以改成手动配置,手动配置还是不行报500错误,暂时先放着
-
-    String consumerKey = "JZw0zANiWj797ztWWC5TKLjyS";
-    String consumerSecret = "V7Ah3H5689exSsa8jFjPZcbkMsXiyiuVnH9Ibo8FCRSjTz4Xag";
-    String accessToken = "1014431059767906304-TWxlBZaYKgHGQdyju2vJ6SPna5EVmw";
-    String accessTokenSecret = "y6bPeDlab4XdCpacbRoK7I5ehOfiF3PCuDtbsRXDsgwkO";
-
-    private Twitter twitter;
+    /**这里twitterjar包有问题,无法自动注入所以改成手动配置*/
+    private Twitter twitter = TwitterUtil.initTwitter();
 
     @RequestMapping("")
     public String home() {
@@ -54,9 +47,6 @@ public class TweetController {
 
     @RequestMapping("/result")
     public String hello(@RequestParam(defaultValue = "xiaoan") String search, Model model) {
-        //设置代理,需要在创建twitter对象之前设置,之前放的位置不对,造成做了很多无用功
-        setProxy();
-        twitter = new TwitterTemplate(consumerKey,consumerSecret,accessToken,accessTokenSecret);
         SearchResults searchResults = twitter.searchOperations().search(search);
 
         //显示twitter信息列表
@@ -66,19 +56,5 @@ public class TweetController {
         model.addAttribute("search", search);
 
         return "twitterPage";
-    }
-
-    /**设置代理*/
-    private void setProxy() {
-        Properties props = System.getProperties();
-        props.put("http.proxyHost", "127.0.0.1");
-        props.put("http.proxyPort", "1080");
-        props.put("https.proxyHost", "127.0.0.1");
-        props.put("https.proxyPort", "1080");
-
-        // System.setProperty("http.proxyHost", "127.0.0.1");
-        // System.setProperty("http.proxyPort", "8118");
-        // System.setProperty("https.proxyHost", "127.0.0.1");
-        // System.setProperty("https.proxyPort", "8118");
     }
 }
