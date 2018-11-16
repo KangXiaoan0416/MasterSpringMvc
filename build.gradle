@@ -10,7 +10,10 @@ buildscript {
 		classpath("io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE")
 	}
 }
-
+bootRun {
+//开启页面热加载功能
+    addResources = true
+}
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -36,5 +39,6 @@ dependencies {
     compile('org.webjars:jquery:2.1.4')
     compile('org.apache.httpcomponents:httpclient:4.5.5')
 
+	compile("org.springframework.boot:spring-boot-devtools")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

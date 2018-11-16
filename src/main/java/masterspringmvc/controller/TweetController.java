@@ -68,6 +68,7 @@ public class TweetController {
         return "twitterPage";
     }
 
+    /**设置代理*/
     private void setProxy() {
         Properties props = System.getProperties();
         props.put("http.proxyHost", "127.0.0.1");
@@ -78,6 +79,6 @@ public class TweetController {
         // System.setProperty("http.proxyHost", "127.0.0.1");
         // System.setProperty("http.proxyPort", "8118");
         // System.setProperty("https.proxyHost", "127.0.0.1");
-        // System.setProperty("https.proxyPort", "81188");
+        // System.setProperty("https.proxyPort", "8118");
     }
 }

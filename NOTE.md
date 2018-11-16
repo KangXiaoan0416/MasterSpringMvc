@@ -95,16 +95,25 @@ lambda是函数表达式的便捷语法，它可以用到单个的抽象方法(S
 ### 4.1.4 处理上传文件的错误
 1.IOException
 > 控制器中添加 @ExceptionHandle 注解 类，该控制器下的所有异常都会调用此方法
+
 2.MartFileException
 > 配置tomcat 异常，因为书上spring-boot版本是1.2.5而我用的是2.0所以这个类在2.0中废弃了，导致我查了下文档，
 > 参考WebConfiguration 中的ConfigurableServletWebServerFactory，这是2.0中对tomcat的配置K
 
 ## 4.2 转换错误信息
+>将错误提示信息转换成通俗文字,从资源文件中取
 
+## 4.3 将基本信息放到会话中
+把信息放到会话中,类似struts中的session
+创建UserProfileSession类
+> Scope注解 proxyMode参数
 
+1.TARGET_CLASS: 这会使用CGLIB代理
+2.INTERFACES: 这会创建JDK代理
+3.NO: 不会创建任何代理
 
-
-
+## 4.4 自定义错误页面
+>定义自己的错误视图
 
 
 
