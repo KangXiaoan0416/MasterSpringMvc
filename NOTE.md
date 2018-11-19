@@ -131,11 +131,22 @@ lambda是函数表达式的便捷语法，它可以用到单个的抽象方法(S
 * 组合完之后 searchPage.html 和TweetController可以删除,本项目中不删除,在此说明.
 添加 HomeController
 
+## 4.7检查点
+1. 新加两个控制器 PictureUploadController,SearchController
+    SearchController 将搜索功能委托给SearchService,删除旧的TweetController
+
+2. 创建了一个新的会话bean,UserProfileSession 存储用户信息
+
+3. WebConfiguration 添加两项内容 
+    Servlet 容器级别的错误页面以及对矩阵变量的支持功能
+
+4. 资源方面
+    添加了一张图片表示匿名用户,以及一个静态页面处理错误,将上传功能转移到profilePage,移除searchPage
+
+## 4.8 小结
 
 
-
-
-
+# 第五章 创建RESTful 应用
 
 
 
