@@ -50,15 +50,15 @@ public class PictureUploadController {
         IOUtils.copy(picturePath.getInputStream(), response.getOutputStream());
     }
 
-    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    @RequestMapping(value = "/twitter/profile", method = RequestMethod.POST)
     public String onUpload(@RequestParam MultipartFile file, RedirectAttributes redirectAttrs) throws IOException {
         if(file.isEmpty() || !isImage(file)) {
             redirectAttrs.addFlashAttribute("error", "Incorrect file.Please upload a picture");
-            return "redirect:/profile";
+            return "redirect:/twitter/profile";
         }
         Resource picturePath = copyFileToPictures(file);
         userProfileSession.setPicturePath(picturePath);
-        return "redirect:/profile";
+        return "redirect:/twitter/profile";
     }
     
     /**

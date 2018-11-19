@@ -22,7 +22,7 @@ import java.util.List;
  * @date: 18-7-4 下午3:49
  */
 @Controller
-@RequestMapping("/twitter")
+@RequestMapping("")
 public class TweetController {
     /**这里twitterjar包有问题,无法自动注入所以改成手动配置*/
     private Twitter twitter = TwitterUtil.initTwitter();

@@ -33,7 +33,7 @@
     <!--@{}语法会为资源构建完整的路径,会将服务器上下文路径(localhost:8080)添加到它的参数上-->
     <!--/*@thymesVar id="profileForm" type="masterspringmvc.controller.ProfileForm"*/-->
     <!-- 这里添加注释指定对应的pojo类，不然会有红线-->
-    <form th:action="@{/twitter/profile}" th:object="${profileForm}" method="post" class="col m8 s12 offset-m2">
+    <form th:action="@{/profile}" th:object="${profileForm}" method="post" class="col m8 s12 offset-m2">
         <!--这个错误信息放到表单外面会报错,为什么呢-->
         <!-- <ul th:if="${#fields.hasErrors('*')}" th:class="errorlist">
              <li th:each="err:${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>

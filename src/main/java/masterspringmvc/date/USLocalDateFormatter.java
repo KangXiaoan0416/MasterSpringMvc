@@ -7,9 +7,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+/**
+ * 日期格式化工具类
+ * 功能描述: TODO
+ * @author: 康小安
+ * @createDate: 18-11-19 下午1:41
+ */
 public class USLocalDateFormatter implements Formatter<LocalDate> {
+
     public static final String US_PATTERN = "MM/dd/yyyy";
-    public static final String NORMAL_PATTERN = "yyyy//MM/dd";
+    public static final String NORMAL_PATTERN = "yyyy/MM/dd";
 
 
     @Override

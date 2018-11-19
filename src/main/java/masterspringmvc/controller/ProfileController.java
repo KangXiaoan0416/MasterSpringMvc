@@ -20,7 +20,7 @@ import java.util.Locale;
  * @date: 18-7-5 下午7:42
  */
 @Controller
-@RequestMapping("/twitter/profile")
+@RequestMapping("/profile")
 public class ProfileController {
 
     private UserProfileSession userProfileSession;
@@ -46,8 +46,7 @@ public class ProfileController {
             return "profile/profilePage";
         }
         userProfileSession.saveForm(profileForm);
-        System.out.println("save ok" + profileForm);
-        return "redirect:.";
+        return "redirect:/search/mixed;keywords=" + String.join(",",profileForm.getTastes());
     }
 
     @ModelAttribute("dateFormat")

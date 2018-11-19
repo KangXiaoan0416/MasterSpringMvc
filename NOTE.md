@@ -7,7 +7,6 @@ Controller配置:(masterspringmvc.controller.HelloController)
 ### Debug模式
 application.properties 配置debug=true
 
-
 ## 1.6 Spring Boot 代码解析
 ### 1.6.2 视图解析器：WebMvcAutoConfigurationAdapter
 > 配置视图解析器，在application.properties 中配置spring.view.prefix,spring.view,suffix即可
@@ -67,7 +66,9 @@ lambda是函数表达式的便捷语法，它可以用到单个的抽象方法(S
 ```
 使用布局的时候书上数不用引入thymelaf-layout-dialect 依赖,结果发现没有,然后又加上了,果然不能尽信书啊－－
 
-## 2.9 导航
+## 2.9 使用WEbJars实现质感设计
+
+### 2.9.1 使用布局
 错误: 
 > 使用布局的时候因为application.prop 中加了spring.groovy.template.cache=false属性,导致从searchPage到resultPage后结果页面引入css错误
 错误原因待查.
@@ -125,8 +126,10 @@ lambda是函数表达式的便捷语法，它可以用到单个的抽象方法(S
 
 ## 4.6 将其组合起来
 组合功能
-
-
+1. 将图片上传功能整合到个人表单
+2. 在个人表单提交信息直接跳转到搜索结果页
+* 组合完之后 searchPage.html 和TweetController可以删除,本项目中不删除,在此说明.
+添加 HomeController
 
 
 
